@@ -1,0 +1,6 @@
+*.docx
+output/
+__pycache__/
+*.pyc
+.cursor/
+!examples/fixtures/.gitkeep

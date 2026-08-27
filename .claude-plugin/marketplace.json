@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "maagarim-reader",
+  "version": "1.0.0",
+  "description": "Maagarim Reader — verify Mishnah and Talmud quotes in Word against Academy manuscript transcriptions.",
+  "owner": {
+    "name": "Yotam Fromm"
+  },
+  "plugins": [
+    {
+      "name": "maagarim-reader",
+      "version": "1.0.0",
+      "description": "Check Mishnah and Talmud quotes against Maagarim; Word comments + tracked changes.",
+      "source": "."
+    }
+  ]
+}
