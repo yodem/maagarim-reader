@@ -1,4 +1,5 @@
 *.docx
+!examples/fixtures/**/*.docx
 output/
 __pycache__/
 *.pyc

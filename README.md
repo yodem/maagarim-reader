@@ -12,6 +12,19 @@ This repo is a **Cowork plugin**. See **[COWORK.md](COWORK.md)** for:
 
 Quick share: zip the folder and send it, or push to GitHub and share the repo URL.
 
+## Tanakh nikud (bli te'amim)
+
+Add nikud without cantillation to unpointed Bible quotes in a `.docx`, using Sefaria
+(`find-refs` + `Tanach with Nikkud`):
+
+```bash
+python3 scripts/nikud_tanakh_docx.py --input path/to/article.docx
+python3 scripts/nikud_tanakh_docx.py --input path/to/article.docx --dry-run
+```
+
+Output defaults to `output/nikud-tanakh.docx` (tracked changes; author **Tanakh Nikud**).
+See `examples/fixtures/tanakh-nikud-sample.docx` for a smoke-test input.
+
 ## Quick start (local script)
 
 1. Install: `pip install -r requirements.txt`
