@@ -38,16 +38,20 @@ cd maagarim-reader
 git init
 git add .claude-plugin skills scripts references SKILL.md COWORK.md README.md
 git commit -m "Maagarim Reader Cowork plugin"
-git remote add origin https://github.com/YOU/maagarim-reader.git
+git remote add origin https://github.com/yodem/maagarim-reader.git
 git push -u origin main
 ```
 
-2. Colleague: **Customize → Plugins → Add marketplace**.
-3. Enter `https://github.com/YOU/maagarim-reader` (or `YOU/maagarim-reader`).
-4. Install **maagarim-reader** from the list.
-5. **Update** the marketplace later to pull your commits.
+`.claude-plugin/marketplace.json` must list the plugin with a **GitHub object** source
+(not `"."`), e.g. `{"source":"github","repo":"yodem/maagarim-reader"}`. String/`./`
+sources work in the Claude Code CLI but make Cowork report **Marketplace sync failed**.
 
-The repo includes `.claude-plugin/marketplace.json` so Cowork discovers the plugin at the repo root.
+2. Colleague: **Customize → Plugins → Add marketplace**.
+3. Enter `yodem/maagarim-reader` (owner/repo).
+4. Install **maagarim-reader** from the list.
+5. **Update** / re-sync later to pull new commits.
+
+If sync still fails, use **Option A (zip)** — that bypasses the marketplace service.
 
 ---
 
