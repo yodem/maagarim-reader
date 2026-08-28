@@ -20,8 +20,10 @@ SITE = "https://maagarim.hebrew-academy.org.il/Pages/PMain.aspx"
 # First-autocomplete compositions (agent + comment links OK)
 MISHNAH = 31000  # Kaufmann A 50
 TOSEFTA = 28000  # Wien 46
+BAVLI_BERAKHOT = 80001  # Oxford Bodleian 366
 BAVLI_HAGIGAH = 80023  # Munich 6
 BAVLI_RH = 80019  # JTS EMC 270
+YERUSHALMI_KETUBOT = 90025  # first autocomplete; no chapter mm15
 
 # Tractate codes (mm dropdown) — same for משנה / תוספתא
 TRACTATE_HAGIGAH = "023"
@@ -115,3 +117,39 @@ def find_instructions(
 def search_link(phrase: str, *, page: int = 1) -> str:
     """Deprecated FreeText URL — often ORA-04036. Prefer composition_link(mm15=…)."""
     return f"{SITE}?query={quote(phrase)}&page={page}"
+
+
+def _cli() -> int:
+    import argparse
+
+    p = argparse.ArgumentParser(description="Print a Maagarim deep link (no fetch).")
+    sub = p.add_subparsers(dest="cmd", required=True)
+    u = sub.add_parser("url")
+    u.add_argument("--id", type=int, required=True)
+    u.add_argument("--mm15", default=None)
+    m = sub.add_parser("mishnah-unit")
+    m.add_argument("--tractate", required=True, help="3-digit code, e.g. 023")
+    m.add_argument("--chapter", type=int, required=True)
+    m.add_argument("--unit", type=int, required=True)
+    m.add_argument("--id", type=int, default=MISHNAH)
+    b = sub.add_parser("bavli-daf")
+    b.add_argument("--daf", type=int, required=True)
+    b.add_argument("--amud", type=int, required=True, help="1=א 2=ב")
+    b.add_argument("--id", type=int, default=BAVLI_BERAKHOT)
+    args = p.parse_args()
+    if args.cmd == "url":
+        print(composition_link(args.id, mm15=args.mm15))
+        return 0
+    if args.cmd == "mishnah-unit":
+        mm = mm15_unit(args.tractate, args.chapter, args.unit)
+        print(composition_link(args.id, mm15=mm))
+        return 0
+    if args.cmd == "bavli-daf":
+        mm = mm15_bavli_daf(args.daf, args.amud)
+        print(composition_link(args.id, mm15=mm))
+        return 0
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(_cli())

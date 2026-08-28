@@ -2,6 +2,14 @@
 
 Check Mishnah and Talmud quotes in Word documents against [Maagarim](https://maagarim.hebrew-academy.org.il) manuscript transcriptions.
 
+## Validation (maintainer)
+
+```bash
+./scripts/validate.sh
+```
+
+Runs skill contract tests (forbids fetch-and-summarize, quote budget, failure-report headers).
+
 ## Share in Claude Cowork
 
 This repo is a **Cowork plugin**. See **[COWORK.md](COWORK.md)** for:

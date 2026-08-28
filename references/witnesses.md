@@ -4,6 +4,7 @@
 |-------------------|------------------------------|----------------|
 | משנה | 31000 | Kaufmann A 50 |
 | תוספתא | 28000 | Wien, Oesterreichische Nationalbibliothek, 46 |
+| תלמוד בבלי, ברכות | 80001 | Oxford, Bodleian Library, 366 |
 | תלמוד בבלי, חגיגה | 80023 | Munich, Bayerische Staatsbibliothek, 6 |
 | תלמוד בבלי, כתובות | 80025 | Vatican ebr. 130 |
 | תלמוד בבלי, יבמות | 80024 | first hit (verify header) |

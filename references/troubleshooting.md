@@ -36,6 +36,16 @@ Then inside the open composition: **טקסט חופשי** with 3–6 words (do n
 
 **Fix:** always use `misyzira` + `mm15`. Do not rely on `page=` as a permalink.
 
+## Cowork: Hebrew filename → underscores
+
+Cowork may show a Hebrew upload as `____ _ _______ ____.docx` in tool logs. **Do not** guess a UUID path.
+
+```bash
+python3 scripts/find_uploaded_docx.py --root .
+```
+
+Use the newest `.docx` returned. If none → tell the user (in Hebrew) the file was not found and ask them to re-upload.
+
 ## Tracked changes look wrong / stacked
 
 Accept existing ins/del into a clean backup before annotating.

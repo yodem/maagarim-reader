@@ -1,6 +1,6 @@
 {
   "name": "maagarim-reader",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Check Mishnah and Talmud quotes in Word documents against Maagarim manuscript transcriptions. Adds Hebrew comments and Word tracked changes (suggestion mode).",
   "author": {
     "name": "Yotam Fromm"
