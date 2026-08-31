@@ -41,7 +41,7 @@ They invoke it by starting a Cowork task and naming the skill, e.g. “use maaga
 ```bash
 cd maagarim-reader
 git init
-git add .claude-plugin skills scripts references SKILL.md COWORK.md README.md
+git add .claude-plugin skills scripts references examples SKILL.md COWORK.md README.md
 git commit -m "Maagarim Reader Cowork plugin"
 git remote add origin https://github.com/yodem/maagarim-reader.git
 git push -u origin main

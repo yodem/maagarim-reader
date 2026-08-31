@@ -33,7 +33,7 @@ python3 scripts/nikud_tanakh_docx.py --input path/to/article.docx
 python3 scripts/nikud_tanakh_docx.py --input path/to/article.docx --dry-run
 ```
 
-Output: `output/nikud-tanakh.docx` · fixture: `examples/fixtures/tanakh-nikud-sample.docx`
+Overwrites the same `.docx` with tracked changes (author **Tanakh Nikud**). Backup: `<name>-pre-nikud-backup.docx`.
 
 ## Quick start (Maagarim — local script)
 

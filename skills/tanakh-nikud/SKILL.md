@@ -39,8 +39,10 @@ Do not mention APIs, Sefaria internals, or script names unless asked.
    ```bash
    pip install -r requirements.txt   # once
    python3 scripts/nikud_tanakh_docx.py --input <path>.docx --dry-run
-   python3 scripts/nikud_tanakh_docx.py --input <path>.docx --output output/nikud-tanakh.docx
+   python3 scripts/nikud_tanakh_docx.py --input <path>.docx
    ```
+
+   Overwrites the same file with **tracked changes** (suggestion mode). Backup: `<name>-pre-nikud-backup.docx`.
 
 3. Open result in Word → **Review → All Markup**.
 

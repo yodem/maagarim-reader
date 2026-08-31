@@ -11,11 +11,16 @@ Flow (mirrors Sefaria gdocs Find Citations + sefaria-mcp get_text):
 Usage:
   python3 scripts/nikud_tanakh_docx.py --input article.docx
   python3 scripts/nikud_tanakh_docx.py --input article.docx --dry-run
+  python3 scripts/nikud_tanakh_docx.py --input article.docx --output other.docx
+
+By default writes **back to the same file** with track revisions (Word suggestion mode).
+A one-time backup is saved alongside as ``<name>-pre-nikud-backup.docx`` unless ``--no-backup``.
 """
 
 from __future__ import annotations
 
 import argparse
+import shutil
 import sys
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -47,6 +52,10 @@ INITIALS = "TN"
 ISO_DATE = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 XML_SPACE = "{http://www.w3.org/XML/1998/namespace}space"
 DEFAULT_OUTPUT = ROOT / "output" / "nikud-tanakh.docx"
+
+
+def backup_path_for(input_path: Path) -> Path:
+    return input_path.with_name(f"{input_path.stem}-pre-nikud-backup{input_path.suffix}")
 
 # Chunk size for find-refs on long docs (linker NER).
 CHUNK_CHARS = 6000
@@ -424,7 +433,12 @@ def main() -> int:
         "-o",
         type=Path,
         default=None,
-        help=f"Output path (default: {DEFAULT_OUTPUT})",
+        help="Output path (default: overwrite --input in place with tracked changes)",
+    )
+    ap.add_argument(
+        "--no-backup",
+        action="store_true",
+        help="Do not write <name>-pre-nikud-backup.docx before in-place save",
     )
     ap.add_argument(
         "--base-url",
@@ -452,14 +466,15 @@ def main() -> int:
     )
     args = ap.parse_args()
 
-    if not args.input.exists():
-        print(f"missing input: {args.input}", file=sys.stderr)
+    input_path = args.input.expanduser().resolve()
+    if not input_path.exists():
+        print(f"missing input: {input_path}", file=sys.stderr)
         return 1
+    out = (args.output or input_path).expanduser().resolve()
+    if out.parent != input_path.parent and not args.dry_run:
+        out.parent.mkdir(parents=True, exist_ok=True)
 
-    out = args.output or DEFAULT_OUTPUT
-    out.parent.mkdir(parents=True, exist_ok=True)
-
-    doc = Document(str(args.input))
+    doc = Document(str(input_path))
     corpus, spans = build_corpus(doc)
     print(f"Corpus: {len(corpus)} chars, {len(spans)} paragraphs")
 
@@ -486,6 +501,16 @@ def main() -> int:
     if args.dry_run:
         print("Dry run — no file written")
         return 0
+
+    if not planned:
+        print("No changes — file not modified")
+        return 0
+
+    if out == input_path and not args.no_backup:
+        bak = backup_path_for(input_path)
+        if not bak.exists():
+            shutil.copy2(input_path, bak)
+            print(f"Backup → {bak}")
 
     enable_track_revisions(doc)
     revs = RevIds(1)
