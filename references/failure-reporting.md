@@ -41,7 +41,7 @@ utc: 2026-08-27T20:14:00Z
 | `FETCH_SUMMARIZE_LOOP` | Secondary model read wrong section | Forbid fetch-and-summarize; string compare only |
 | `FILENAME_ENCODING` | `____.docx` vs real Hebrew name | `find_uploaded_docx.py` at session start |
 | `YERUSHALMI_NO_MM15` | No chapter mm15 for Yerushalmi | Comment-only template; no diff |
-| `QUOTE_BUDGET` | >10m verify, no annotated file | Quote budget + progress updates |
+| `QUOTE_BUDGET` | >10m verify or budget hit before inventory complete | Mark each remaining `#id` «לא נבדק»; list numbers in report |
 | `WITNESS_NOT_LOADED` | המסירה not seen | Comment-only; no tracked change |
 | `USER_REPORT` | User-initiated via **feedback** skill | Triage from user answers |
 | `SESSION_STUCK` | Long wait, no deliverable | Quote budget / deliverable-first |

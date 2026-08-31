@@ -22,6 +22,21 @@ https://maagarim.hebrew-academy.org.il/Pages/PMain.aspx?misyzira=[ID]&mm15=[CODE
 בתוך החיבור → טקסט חופשי: «[3–6 מילים]»
 ```
 
+## Not checked (budget / time — mandatory on skipped inventory items)
+
+```
+[ציטוט] (#[id] מהרשימה) — לא נבדק במסירה בבדיקה זו.
+[witness] · [ref]
+https://maagarim.hebrew-academy.org.il/Pages/PMain.aspx?…
+```
+
+## Matches witness (after full-block compare)
+
+```
+[ציטוט] — תואם [witness] ([ref]).
+https://maagarim.hebrew-academy.org.il/Pages/PMain.aspx?…
+```
+
 IDs: משנה `31000` · תוספתא `28000` · בבלי חגיגה `80023` · כתובות `80025`  
 חגיגה mm15: א,א `000023001010 00` · ב,א `000023002010 00` (same codes for משנה/תוספתא; `misyzira` picks the book).
 
@@ -30,6 +45,7 @@ IDs: משנה `31000` · תוספתא `28000` · בבלי חגיגה `80023` · 
 ```
 בדיקת ציטוטי משנה / תוספתא / תלמוד במאגרים.
 עדות ראשונה אם לא צוין כתב יד. Word → סקירה → כל הסימונים.
+רשימת ציטוטים: list_docx_quotes.py — כל פריט מקבל תוצאה (שינוי / תואם / לא נבדק).
 ```
 
 ## Do not

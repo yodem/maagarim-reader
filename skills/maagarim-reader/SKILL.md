@@ -8,7 +8,7 @@ description: >-
   maagarim-reader. Do not use for Tanakh nikud (use tanakh-nikud skill),
   Sefaria-only checks, general proofreading, or non-verbatim quotes.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Maagarim Reader
@@ -42,9 +42,27 @@ The person who uploaded the file is **not technical**. Do not mention sandboxes,
 
 2. **Backup** if the doc already has tracked changes (accept into a clean copy first).
 
-3. **List quotes** (Mishnah / Tosefta / Bavli / Yerushalmi only) with tractate + ref. Tell the user the **count** in plain Hebrew.
+3. **Quote inventory (mandatory)** — before any Maagarim lookup, build a numbered list of **every** verbatim quote in scope (Mishnah / Tosefta / Bavli / Yerushalmi). Do **not** skip footnotes, “secondary” quotes, or long blocks unless the user explicitly asked to limit scope.
 
-4. **Deliverable-first:** start writing comments + tracked changes to the `.docx` **after the first 3 verified quotes**, then continue. Do not spend the whole session only “checking” without an annotated file.
+   ```bash
+   python3 scripts/list_docx_quotes.py --input <path>.docx
+   python3 scripts/list_docx_quotes.py --input <path>.docx --json
+   ```
+
+   Tell the user the **total count** in plain Hebrew (e.g. «מצאתי 24 ציטוטים לבדיקה»). Work through the list **in order**; tick each `#id` when done.
+
+4. **Deliverable-first:** start writing comments + tracked changes to the `.docx` **after the first 3 verified quotes**, then continue through the **rest of the inventory**. Do not spend the whole session only “checking” without an annotated file.
+
+## Quote inventory rules
+
+| Rule | Required |
+|------|----------|
+| Every in-scope verbatim quote gets an outcome | **Yes** — tracked change, «תואם», or «לא נבדק» comment |
+| Skip “central quotes only” / «ציטוטים מרכזיים» | **Never** unless user opts in |
+| Skip footnotes silently | **Never** — mark «לא נבדק» if you run out of time |
+| Leave a quote with no comment | **Never** — silence means “forgot”, not “matches” |
+
+When quote budget or time runs out: add «לא נבדק במסירה בבדיקה זו» on **each remaining** `#id` and list their numbers in the failure report (`QUOTE_BUDGET`).
 
 ## Quote budget (lookup budget)
 
@@ -55,16 +73,29 @@ The person who uploaded the file is **not technical**. Do not mention sandboxes,
 | Max verification-only time before partial deliverable | **10 minutes** |
 | Yerushalmi without working mm15 | **comment-only** — no invented diffs |
 
-If a quote exceeds the budget → comment-only for that quote and move on.
+If a quote exceeds the budget → **comment-only** for that quote (`לא נבדק…`) and move on. Do **not** drop it from the inventory without a comment.
 
 ## Verify loop
 
-1. Extract verbatim quotes (Mishnah / Tosefta / Bavli / Yerushalmi only).
+1. Use the **quote inventory** from `list_docx_quotes.py` (merge split paragraphs; do not re-guess quotes by eye).
 2. Lookup in Maagarim:
-   - **Preferred:** Claude in Chrome on a `misyzira`/`mishibbur` + **mm15** deep link → confirm **המסירה** → טקסט חופשי (3–6 words) **inside** that composition.
-   - **Agent path (no click UI):** `GetYzira` / `GetYziraFull` on the open composition, then **string compare locally**.
-3. Compare raw strings.
-4. Annotate: tracked change on diffs; short comment-only if witness not loaded; skip silently otherwise.
+   - **Preferred:** Claude in Chrome on a `misyzira`/`mishibbur` + **mm15** deep link → confirm **המסירה** → load the **full quoted span** (GetYzira / GetYziraFull or copy entire block from the open composition).
+   - **Agent path (no click UI):** `GetYzira` / `GetYziraFull` on the open composition, then compare locally.
+3. **Full-block compare (mandatory):** diff the **entire** quoted span from the docx against the witness — not a 3–6 word search hit.
+
+   ```bash
+   python3 scripts/compare_quote_span.py --doc "<full quote from article>" --witness "<full witness text>"
+   python3 scripts/compare_quote_span.py --doc "…" --witness "…" --json
+   ```
+
+   If **any** letter-normalized difference exists → **tracked change** on the doc span (all diffs in that quote, not just the first). Use free-text search only to **navigate** inside Maagarim; the decision to annotate comes from full-block compare.
+
+4. Annotate outcomes:
+   - **Diff** → tracked change + short comment (template below)
+   - **Exact match** (after full-block compare) → short comment «תואם [witness]»
+   - **Witness not loaded** → comment-only + link; **no** tracked change
+   - **Budget / time** → «לא נבדק במסירה בבדיקה זו» + link if known
+   - **Never** skip silently
 
 ### Forbidden — causes false variants and 15+ minute loops
 
@@ -72,6 +103,8 @@ If a quote exceeds the budget → comment-only for that quote and move on.
 - **Do not** use corpus FreeText `?query=` (ORA-04036).
 - **Do not** invent manuscript wording if the witness text did not load.
 - **Do not** re-query the same page more than twice hoping for a different summary.
+- **Do not** stop after the first diff inside a quote — run **full-block compare** on the whole span.
+- **Do not** write «הציטוטים המרכזיים» / «לא נבדקו הערות השוליים» unless the user asked to limit scope.
 
 If you have **no browser** and **no GetYzira/GetYziraFull** → stop verification and file **`NO_BROWSER`** (below). Comment-only + link is OK; fake diffs are not.
 
@@ -79,9 +112,9 @@ If you have **no browser** and **no GetYzira/GetYziraFull** → stop verificatio
 
 | Include | Skip silently |
 |---------|----------------|
-| משנה | Tanakh (use **tanakh-nikud** skill) |
-| תוספתא | Ketubah formulas |
-| בבלי / ירושלמי | Paraphrases, `[glosses]` |
+| משנה (incl. footnotes) | Tanakh (use **tanakh-nikud** skill) |
+| תוספתא (incl. footnotes) | Ketubah formulas |
+| בבלי / ירושלמי verbatim quotes | Paraphrases, `[glosses]` |
 
 ## Default witnesses
 
@@ -115,6 +148,8 @@ If you catch yourself searching for a Yerushalmi mm15 pattern → file code **`Y
 Helper (print links only, no fetch):
 
 ```bash
+python3 scripts/list_docx_quotes.py --input <path>.docx
+python3 scripts/compare_quote_span.py --doc "…" --witness "…"
 python3 scripts/maagarim_links.py bavli-daf --daf 11 --amud 1 --id 80001
 python3 scripts/maagarim_links.py mishnah-unit --tractate 001 --chapter 1 --unit 3
 ```
@@ -127,15 +162,7 @@ python3 scripts/maagarim_links.py mishnah-unit --tractate 001 --chapter 1 --unit
 
 ## Failure report (maintainer)
 
-When blocked, prefer the **feedback** skill for user-facing sessions. If you must report inline:
-
-```bash
-python3 scripts/report_skill_failure.py \
-  --skill maagarim-reader \
-  --code <CODE> \
-```
-
-Full flow: [skills/feedback/SKILL.md](../feedback/SKILL.md) · [references/failure-reporting.md](references/failure-reporting.md)
+When blocked, prefer the **feedback** skill for user-facing sessions. If you must report inline, see [skills/feedback/SKILL.md](../feedback/SKILL.md) · [references/failure-reporting.md](references/failure-reporting.md).
 
 Quick inline (agent-only, no user interview):
 

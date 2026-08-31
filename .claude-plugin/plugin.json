@@ -1,6 +1,6 @@
 {
   "name": "maagarim-reader",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Maagarim manuscript checks, Tanakh nikud (Sefaria), and user feedback for Word documents. Three skills: maagarim-reader, tanakh-nikud, feedback.",
   "author": {
     "name": "Yotam Fromm"

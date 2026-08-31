@@ -31,6 +31,26 @@ def test_skill_finds_docx_without_uuid() -> None:
     assert "find_uploaded_docx.py" in SKILL
 
 
+def test_skill_requires_quote_inventory_script() -> None:
+    assert "list_docx_quotes.py" in SKILL
+    assert "Quote inventory" in SKILL or "quote inventory" in SKILL.lower()
+
+
+def test_skill_requires_full_block_compare() -> None:
+    assert "compare_quote_span.py" in SKILL
+    assert "full-block" in SKILL.lower() or "Full-block" in SKILL
+
+
+def test_skill_forbids_central_quotes_only() -> None:
+    assert "ציטוטים מרכזיים" in SKILL or "central quotes only" in SKILL.lower()
+    assert "לא נבדק" in SKILL
+
+
+def test_skill_forbids_silent_skip() -> None:
+    assert "Never" in SKILL or "never" in SKILL.lower()
+    assert "silence" in SKILL.lower() or "שתיקה" in SKILL
+
+
 def test_frontmatter_cowork_safe() -> None:
     # Cowork upload rejects extra YAML keys such as argument-hint.
     forbidden = (
