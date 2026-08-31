@@ -1,19 +1,19 @@
 {
   "name": "maagarim-reader",
-  "version": "1.2.0",
-  "description": "Maagarim Reader — verify Mishnah and Talmud quotes in Word against Academy manuscript transcriptions.",
+  "version": "1.3.0",
+  "description": "Maagarim Reader — Maagarim manuscript checks + Tanakh nikud (two skills).",
   "owner": {
     "name": "Yotam Fromm"
   },
   "metadata": {
     "description": "Maagarim Reader plugins for Claude Cowork / Claude Code",
-    "version": "1.2.0"
+    "version": "1.3.0"
   },
   "plugins": [
     {
       "name": "maagarim-reader",
-      "version": "1.2.0",
-      "description": "Check Mishnah and Talmud quotes against Maagarim; Word comments + tracked changes.",
+      "version": "1.3.0",
+      "description": "Maagarim checks + Tanakh nikud; skills maagarim-reader and tanakh-nikud.",
       "source": {
         "source": "github",
         "repo": "yodem/maagarim-reader"

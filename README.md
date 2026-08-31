@@ -1,6 +1,9 @@
 # Maagarim Reader
 
-Check Mishnah and Talmud quotes in Word documents against [Maagarim](https://maagarim.hebrew-academy.org.il) manuscript transcriptions.
+Cowork plugin with **two skills**:
+
+- **maagarim-reader** — Mishnah / Talmud quotes vs [Maagarim](https://maagarim.hebrew-academy.org.il)
+- **tanakh-nikud** — Tanakh quotes → nikud without te'amim via [Sefaria](https://www.sefaria.org)
 
 ## Validation (maintainer)
 
@@ -20,20 +23,18 @@ This repo is a **Cowork plugin**. See **[COWORK.md](COWORK.md)** for:
 
 Quick share: zip the folder and send it, or push to GitHub and share the repo URL.
 
-## Tanakh nikud (bli te'amim)
+## Tanakh nikud skill
 
-Add nikud without cantillation to unpointed Bible quotes in a `.docx`, using Sefaria
-(`find-refs` + `Tanach with Nikkud`):
+Enable **tanakh-nikud** (not maagarim-reader) for Bible pointing. See [skills/tanakh-nikud/SKILL.md](skills/tanakh-nikud/SKILL.md).
 
 ```bash
 python3 scripts/nikud_tanakh_docx.py --input path/to/article.docx
 python3 scripts/nikud_tanakh_docx.py --input path/to/article.docx --dry-run
 ```
 
-Output defaults to `output/nikud-tanakh.docx` (tracked changes; author **Tanakh Nikud**).
-See `examples/fixtures/tanakh-nikud-sample.docx` for a smoke-test input.
+Output: `output/nikud-tanakh.docx` · fixture: `examples/fixtures/tanakh-nikud-sample.docx`
 
-## Quick start (local script)
+## Quick start (Maagarim — local script)
 
 1. Install: `pip install -r requirements.txt`
 2. Put a clean source copy at `examples/fixtures/ketubot-source.docx` (or pass `--backup`)
@@ -47,11 +48,14 @@ python3 scripts/annotate_first_witness_docx.py --input path/to/article.docx
 
 The bundled script is a **Ketubot reference run** (hardcoded quote map). Cowork users should follow the skill workflow in the browser for arbitrary documents.
 
-## Cursor skill
+## Cursor skills
 
-Copy `skills/maagarim-reader/SKILL.md` to `.cursor/skills/maagarim-reader/SKILL.md`, or attach `@maagarim-reader` in chat.
+Copy each skill into `.cursor/skills/`:
 
-## What it does
+- `skills/maagarim-reader/SKILL.md` → `@maagarim-reader`
+- `skills/tanakh-nikud/SKILL.md` → `@tanakh-nikud`
+
+## What maagarim-reader does
 
 - Finds **verbatim Mishnah/Talmud quotes** only (skips Tanakh, ketubah, paraphrases)
 - Compares against the **first Maagarim witness** when no manuscript is specified

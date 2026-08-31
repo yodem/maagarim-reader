@@ -4,11 +4,15 @@ This folder is a **Cowork plugin** — a packaged skill plus scripts. Cowork doe
 
 ## What colleagues install
 
-One plugin named **maagarim-reader** with:
+One plugin named **maagarim-reader** with **two skills**:
 
-- Skill: check Mishnah/Talmud quotes against [Maagarim](https://maagarim.hebrew-academy.org.il)
-- Scripts: optional Word annotator (`python-docx`)
-- Browser: Maagarim lookups via **Claude in Chrome** (no Maagarim connector exists)
+| Skill | Task |
+|-------|------|
+| **maagarim-reader** | Mishnah / Talmud quotes vs [Maagarim](https://maagarim.hebrew-academy.org.il) |
+| **tanakh-nikud** | Tanakh nikud (bli te'amim) via Sefaria |
+
+- Scripts: `python-docx` annotators under `scripts/`
+- Maagarim: **Claude in Chrome** (no Maagarim connector)
 
 ---
 
@@ -74,20 +78,29 @@ Hand the packaged folder to whoever owns org plugins if you are not an admin.
 ## After install — how colleagues use it
 
 1. Put the **`.docx`** in the Cowork workspace (upload).
-2. Start a session with the **maagarim-reader** plugin enabled.
-3. Prompt example:
+2. Start a session with the plugin enabled and pick the skill:
 
-   > Check all Mishnah and Talmud quotes in `my-article.docx` against Maagarim. Use the first witness when no manuscript is named. Add Hebrew comments and Word tracked changes where wording differs. Open Maagarim in Chrome for live lookups.
+   **Maagarim:**
+   > Check all Mishnah and Talmud quotes in `my-article.docx` against Maagarim…
 
-4. Open the result in **Word → Review → All Markup**.
+   **Tanakh nikud:**
+   > Add nikud without te'amim to all Bible quotes in `my-article.docx` using Sefaria.
 
-Optional: `pip install -r requirements.txt` then:
+3. Open the result in **Word → Review → All Markup**.
+
+Optional Maagarim reference script:
 
 ```bash
 python3 scripts/annotate_first_witness_docx.py --input my-article.docx
 ```
 
 (Ketubot reference quote map only — see `examples/evals.md`.)
+
+Optional Tanakh nikud:
+
+```bash
+python3 scripts/nikud_tanakh_docx.py --input my-article.docx
+```
 
 ---
 
@@ -108,7 +121,7 @@ claude plugin validate
 | | Cursor | Cowork |
 |---|--------|--------|
 | Install | `.cursor/skills/maagarim-reader/` | Plugin upload or GitHub marketplace |
-| Invoke | `@maagarim-reader` | Enable plugin + describe task in Cowork |
+| Invoke | `@maagarim-reader` or `@tanakh-nikud` | Enable plugin + pick skill |
 | Maagarim | Browser / Playwright in agent | **Claude in Chrome** (recommended) |
 
-The same `skills/maagarim-reader/SKILL.md` drives both; Cowork adds browser-first instructions at the top.
+The `skills/` folder holds both skill files; Cowork discovers every `skills/*/SKILL.md`.

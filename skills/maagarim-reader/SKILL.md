@@ -5,8 +5,8 @@ description: >-
   Maagarim manuscript transcriptions. Adds short Hebrew RTL comments and Word
   tracked changes. Use for verify Talmud quotes, check nusach against manuscript,
   annotate docx with Maagarim, Kaufmann, Tosefta Wien, first witness, or
-  maagarim-reader. Do not use for Sefaria-only checks, general proofreading, or
-  non-verbatim quotes.
+  maagarim-reader. Do not use for Tanakh nikud (use tanakh-nikud skill),
+  Sefaria-only checks, general proofreading, or non-verbatim quotes.
 metadata:
   version: "1.2.0"
 ---
@@ -14,6 +14,8 @@ metadata:
 # Maagarim Reader
 
 Verify **verbatim Mishnah, Tosefta, Bavli, Yerushalmi** quotes in a `.docx` against [Maagarim](https://maagarim.hebrew-academy.org.il). Output: **short Hebrew RTL comments** + **tracked changes** (Word → Review → All Markup).
+
+For **Tanakh nikud** (מנוקד בלי טעמים via Sefaria), use the sibling skill **tanakh-nikud** — not this one.
 
 ## Non-technical users (לא טכני)
 
@@ -76,7 +78,7 @@ If you have **no browser** and **no GetYzira/GetYziraFull** → stop verificatio
 
 | Include | Skip silently |
 |---------|----------------|
-| משנה | Tanakh |
+| משנה | Tanakh (use **tanakh-nikud** skill) |
 | תוספתא | Ketubah formulas |
 | בבלי / ירושלמי | Paraphrases, `[glosses]` |
 

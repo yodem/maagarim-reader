@@ -1,7 +1,7 @@
 {
   "name": "maagarim-reader",
-  "version": "1.2.0",
-  "description": "Check Mishnah and Talmud quotes in Word documents against Maagarim manuscript transcriptions. Adds Hebrew comments and Word tracked changes (suggestion mode).",
+  "version": "1.3.0",
+  "description": "Maagarim manuscript checks + Tanakh nikud (Sefaria) for Word documents. Two skills: maagarim-reader, tanakh-nikud.",
   "author": {
     "name": "Yotam Fromm"
   },
@@ -11,6 +11,9 @@
     "mishnah",
     "citation-verification",
     "hebrew-academy",
-    "manuscript"
+    "tanakh",
+    "nikud",
+    "sefaria",
+    "bible"
   ]
 }
