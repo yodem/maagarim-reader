@@ -13,7 +13,8 @@ metadata:
 
 Add **nikud without te'amim** to unpointed **Tanakh** quotations in a `.docx`. Source: [Sefaria](https://www.sefaria.org) edition **Tanach with Nikkud**. Output: Word **tracked changes** (author **Tanakh Nikud**).
 
-**Not Maagarim.** For Mishnah / Tosefta / Bavli manuscript checks, use the **maagarim-reader** skill instead.
+**Not Maagarim.** For Mishnah / Tosefta / Bavli manuscript checks, use **maagarim-reader**.  
+If something went wrong, use **feedback** (דיווח).
 
 ## Non-technical users (לא טכני)
 

@@ -43,6 +43,20 @@ utc: 2026-08-27T20:14:00Z
 | `YERUSHALMI_NO_MM15` | No chapter mm15 for Yerushalmi | Comment-only template; no diff |
 | `QUOTE_BUDGET` | >10m verify, no annotated file | Quote budget + progress updates |
 | `WITNESS_NOT_LOADED` | המסירה not seen | Comment-only; no tracked change |
+| `USER_REPORT` | User-initiated via **feedback** skill | Triage from user answers |
+| `SESSION_STUCK` | Long wait, no deliverable | Quote budget / deliverable-first |
+| `PARTIAL_RESULT` | Some work, no final docx | Resume or re-run |
+| `WRONG_OUTPUT` | Annotated file looks wrong | Human review |
+
+## feedback skill
+
+Researchers enable **feedback** in Cowork and describe what went wrong in plain Hebrew. The agent runs:
+
+```bash
+python3 scripts/report_skill_failure.py --skill feedback --related-skill maagarim-reader ...
+```
+
+See [skills/feedback/SKILL.md](../skills/feedback/SKILL.md).
 
 ## Example: Berakhot Aug 2026 session (customer)
 

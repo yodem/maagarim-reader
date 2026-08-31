@@ -15,7 +15,8 @@ metadata:
 
 Verify **verbatim Mishnah, Tosefta, Bavli, Yerushalmi** quotes in a `.docx` against [Maagarim](https://maagarim.hebrew-academy.org.il). Output: **short Hebrew RTL comments** + **tracked changes** (Word → Review → All Markup).
 
-For **Tanakh nikud** (מנוקד בלי טעמים via Sefaria), use the sibling skill **tanakh-nikud** — not this one.
+For **Tanakh nikud** (מנוקד בלי טעמים via Sefaria), use the sibling skill **tanakh-nikud** — not this one.  
+If something went wrong, use **feedback** (דיווח).
 
 ## Non-technical users (לא טכני)
 
@@ -124,13 +125,24 @@ python3 scripts/maagarim_links.py mishnah-unit --tractate 001 --chapter 1 --unit
 2. Enable track revisions. Comments first, then replacements.
 3. Author: `Maagarim Reader`. Set `w:bidi` on Hebrew comment paragraphs.
 
-## Failure report (for maintainer auto-fix loop)
+## Failure report (maintainer)
 
-When any blocker below happens, **before** ending the session run:
+When blocked, prefer the **feedback** skill for user-facing sessions. If you must report inline:
 
 ```bash
 python3 scripts/report_skill_failure.py \
+  --skill maagarim-reader \
   --code <CODE> \
+```
+
+Full flow: [skills/feedback/SKILL.md](../feedback/SKILL.md) · [references/failure-reporting.md](references/failure-reporting.md)
+
+Quick inline (agent-only, no user interview):
+
+```bash
+python3 scripts/report_skill_failure.py \
+  --skill maagarim-reader \
+  --code NO_BROWSER \
   --source "skills/maagarim-reader/SKILL.md" \
   --step "<what happened>" \
   --step "<next causal step>" \

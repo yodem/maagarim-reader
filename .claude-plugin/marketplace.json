@@ -1,6 +1,6 @@
 {
   "name": "maagarim-reader",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Maagarim Reader — Maagarim manuscript checks + Tanakh nikud (two skills).",
   "owner": {
     "name": "Yotam Fromm"
@@ -12,8 +12,8 @@
   "plugins": [
     {
       "name": "maagarim-reader",
-      "version": "1.3.0",
-      "description": "Maagarim checks + Tanakh nikud; skills maagarim-reader and tanakh-nikud.",
+      "version": "1.4.0",
+      "description": "Maagarim + Tanakh nikud + feedback; three skills.",
       "source": {
         "source": "github",
         "repo": "yodem/maagarim-reader"

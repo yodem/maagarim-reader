@@ -1,9 +1,10 @@
 # Maagarim Reader
 
-Cowork plugin with **two skills**:
+Cowork plugin with **three skills**:
 
 - **maagarim-reader** — Mishnah / Talmud quotes vs [Maagarim](https://maagarim.hebrew-academy.org.il)
 - **tanakh-nikud** — Tanakh quotes → nikud without te'amim via [Sefaria](https://www.sefaria.org)
+- **feedback** — report a problem or unclear result (דיווח)
 
 ## Validation (maintainer)
 
@@ -54,6 +55,7 @@ Copy each skill into `.cursor/skills/`:
 
 - `skills/maagarim-reader/SKILL.md` → `@maagarim-reader`
 - `skills/tanakh-nikud/SKILL.md` → `@tanakh-nikud`
+- `skills/feedback/SKILL.md` → `@feedback`
 
 ## What maagarim-reader does
 

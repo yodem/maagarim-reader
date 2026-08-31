@@ -4,12 +4,13 @@ This folder is a **Cowork plugin** — a packaged skill plus scripts. Cowork doe
 
 ## What colleagues install
 
-One plugin named **maagarim-reader** with **two skills**:
+One plugin named **maagarim-reader** with **three skills**:
 
 | Skill | Task |
 |-------|------|
 | **maagarim-reader** | Mishnah / Talmud quotes vs [Maagarim](https://maagarim.hebrew-academy.org.il) |
 | **tanakh-nikud** | Tanakh nikud (bli te'amim) via Sefaria |
+| **feedback** | Report a problem or unclear result (דיווח) |
 
 - Scripts: `python-docx` annotators under `scripts/`
 - Maagarim: **Claude in Chrome** (no Maagarim connector)
@@ -86,6 +87,9 @@ Hand the packaged folder to whoever owns org plugins if you are not an admin.
    **Tanakh nikud:**
    > Add nikud without te'amim to all Bible quotes in `my-article.docx` using Sefaria.
 
+   **Feedback:**
+   > השתמשי ב-feedback — הבדיקה על הקובץ שלי לא הסתיימה כמו שציפיתי.
+
 3. Open the result in **Word → Review → All Markup**.
 
 Optional Maagarim reference script:
@@ -121,7 +125,7 @@ claude plugin validate
 | | Cursor | Cowork |
 |---|--------|--------|
 | Install | `.cursor/skills/maagarim-reader/` | Plugin upload or GitHub marketplace |
-| Invoke | `@maagarim-reader` or `@tanakh-nikud` | Enable plugin + pick skill |
+| Invoke | `@maagarim-reader`, `@tanakh-nikud`, or `@feedback` | Enable plugin + pick skill |
 | Maagarim | Browser / Playwright in agent | **Claude in Chrome** (recommended) |
 
-The `skills/` folder holds both skill files; Cowork discovers every `skills/*/SKILL.md`.
+The `skills/` folder holds all three skill files; Cowork discovers every `skills/*/SKILL.md`.

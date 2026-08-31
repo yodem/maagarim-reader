@@ -30,7 +30,7 @@ from urllib.parse import quote
 FAIL_HEADER = "ACI_FAIL"
 SUBJECT_PREFIX = "[MAAGARIM-READER-ACI-FAIL]"
 DEFAULT_TO = "yotam@sefaria.org"
-SKILL_NAME = "maagarim-reader"
+DEFAULT_SKILL = "maagarim-reader"
 
 KNOWN_CODES = (
     "NO_BROWSER",
@@ -39,16 +39,25 @@ KNOWN_CODES = (
     "YERUSHALMI_NO_MM15",
     "QUOTE_BUDGET",
     "WITNESS_NOT_LOADED",
+    "USER_REPORT",
+    "SESSION_STUCK",
+    "PARTIAL_RESULT",
+    "WRONG_OUTPUT",
 )
+
+KNOWN_SKILLS = ("maagarim-reader", "tanakh-nikud", "feedback")
+KNOWN_RELATED = ("maagarim-reader", "tanakh-nikud", "unknown")
 
 
 def render_report(
     *,
+    skill: str,
     code: str,
     source: str,
     steps: list[str],
     quote_file: str,
     next_action: str,
+    related_skill: str = "",
     extra: str = "",
 ) -> str:
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -56,16 +65,17 @@ def render_report(
     lines = [
         FAIL_HEADER,
         "status: FAIL",
-        f"skill: {SKILL_NAME}",
+        f"skill: {skill}",
         f"code: {code}",
         f"source: {source}",
         f"quote_file: {quote_file}",
         f"steps: {step_line}",
         f"next_action: {next_action}",
         f"utc: {now}",
-        "",
-        extra.strip(),
     ]
+    if related_skill:
+        lines.insert(5, f"related_skill: {related_skill}")
+    lines.extend(["", extra.strip()])
     return "\n".join(lines).rstrip() + "\n"
 
 
@@ -88,6 +98,7 @@ def build_message(
     to_addr: str,
     code: str,
     body: str,
+    skill: str,
     from_addr: str | None = None,
 ) -> EmailMessage:
     msg = EmailMessage()
@@ -96,7 +107,7 @@ def build_message(
     msg["From"] = from_addr or os.environ.get(
         "MAAGARIM_READER_REPORT_FROM", f"maagarim-reader@{to_addr.split('@')[-1]}"
     )
-    msg["X-Maagarim-Reader-Skill"] = SKILL_NAME
+    msg["X-Maagarim-Reader-Skill"] = skill
     msg["X-Maagarim-Reader-Code"] = code
     msg.set_content(body)
     return msg
@@ -105,26 +116,30 @@ def build_message(
 def write_report(
     out_dir: Path,
     *,
+    skill: str,
     code: str,
     source: str,
     steps: list[str],
     quote_file: str,
     next_action: str,
+    related_skill: str = "",
     extra: str = "",
     send: bool = False,
     mailto_open: bool = False,
 ) -> dict[str, str]:
     out_dir.mkdir(parents=True, exist_ok=True)
     body = render_report(
+        skill=skill,
         code=code,
         source=source,
         steps=steps,
         quote_file=quote_file,
         next_action=next_action,
+        related_skill=related_skill,
         extra=extra,
     )
     to_addr = os.environ.get("MAAGARIM_READER_REPORT_TO", DEFAULT_TO)
-    msg = build_message(to_addr=to_addr, code=code, body=body)
+    msg = build_message(to_addr=to_addr, code=code, body=body, skill=skill)
     eml_path = out_dir / "skill-failure.eml"
     md_path = out_dir / "skill-failure.md"
     eml_path.write_bytes(bytes(msg))
@@ -154,6 +169,17 @@ def write_report(
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--code", required=True, choices=KNOWN_CODES)
+    ap.add_argument(
+        "--skill",
+        default=DEFAULT_SKILL,
+        choices=KNOWN_SKILLS,
+        help="Reporting skill (default: maagarim-reader)",
+    )
+    ap.add_argument(
+        "--related-skill",
+        default="",
+        help="Skill the user was running: maagarim-reader | tanakh-nikud | unknown",
+    )
     ap.add_argument("--source", required=True, help="Exact skill/script location")
     ap.add_argument(
         "--step",
@@ -185,11 +211,13 @@ def main() -> int:
     out_dir = args.out_dir or (repo / "output")
     paths = write_report(
         out_dir,
+        skill=args.skill,
         code=args.code,
         source=args.source,
         steps=args.steps,
         quote_file=args.quote_file,
         next_action=args.next_action,
+        related_skill=args.related_skill or "",
         extra=args.extra,
         send=args.send,
         mailto_open=args.mailto_open,

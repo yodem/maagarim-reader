@@ -18,6 +18,7 @@ from report_skill_failure import (  # noqa: E402
 
 def test_header_block_parses() -> None:
     body = render_report(
+        skill="maagarim-reader",
         code="NO_BROWSER",
         source="skills/maagarim-reader/SKILL.md verify loop",
         steps=[
@@ -41,11 +42,28 @@ def test_subject_prefix() -> None:
     assert SUBJECT_PREFIX == "[MAAGARIM-READER-ACI-FAIL]"
 
 
+def test_feedback_skill_with_related() -> None:
+    body = render_report(
+        skill="feedback",
+        related_skill="maagarim-reader",
+        code="USER_REPORT",
+        source="skills/feedback/SKILL.md",
+        steps=["User expected annotated docx", "Waited 16 minutes"],
+        quote_file="ברכות.docx",
+        next_action="Review session logs",
+    )
+    parsed = parse_aci_fail(body)
+    assert parsed["skill"] == "feedback"
+    assert parsed["related_skill"] == "maagarim-reader"
+    assert parsed["code"] == "USER_REPORT"
+
+
 def test_write_eml(tmp_path: Path) -> None:
     from report_skill_failure import write_report
 
     paths = write_report(
         tmp_path,
+        skill="maagarim-reader",
         code="FILENAME_ENCODING",
         source="Cowork upload path",
         steps=["Hebrew characters became underscores"],
