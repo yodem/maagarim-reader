@@ -14,6 +14,16 @@ Cowork plugin with **three skills**:
 
 Runs skill contract tests (forbids fetch-and-summarize, quote budget, failure-report headers).
 
+## Install
+
+Claude Code, from the GitHub marketplace in this repo:
+
+```
+/plugin install maagarim-reader --marketplace yodem/maagarim-reader
+```
+
+In Claude Cowork: **Customize → Plugins → Add marketplace**, enter `yodem/maagarim-reader`, then install **maagarim-reader** (details in [COWORK.md](COWORK.md)).
+
 ## Share in Claude Cowork
 
 This repo is a **Cowork plugin**. See **[COWORK.md](COWORK.md)** for:

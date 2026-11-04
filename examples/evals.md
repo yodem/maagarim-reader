@@ -9,7 +9,7 @@ Grade **outcomes**, not step order. An agent may find quotes in any sequence.
 **Expected:**
 - Comment in Hebrew naming Kaufmann A 50
 - Tracked change: `נישאת` / `ביום` / `השיני`
-- Comment includes working `?query=` link (not `?mishibbur=`)
+- Comment includes the working composition link `…PMain.aspx?misyzira=31000&mm15=000025001010%2000` (not FreeText `?query=`, which fails with ORA-04036, and not `?mishibbur=…&page=…`; see `references/troubleshooting.md`)
 
 ## 2. Bavli diff → tracked change
 
